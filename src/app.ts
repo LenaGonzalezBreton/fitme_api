@@ -2,6 +2,8 @@ import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import fjwt from '@fastify/jwt';
 import { authRoutes } from './modules/auth/auth.routes';
 import { authSchemas } from './modules/auth/auth.schema';
+import { profileRoutes } from './modules/profile/profile.routes';
+import { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 const server = Fastify();
 
@@ -19,7 +21,7 @@ for (const schema of authSchemas) {
 
 // 3. Enregistrer les routes
 server.register(authRoutes, { prefix: 'api/auth' });
-
+server.withTypeProvider<ZodTypeProvider>().register(profileRoutes, { prefix: 'api/profile' });
 // Healthcheck
 server.get('/health', async () => {
   return { status: 'ok', service: 'fitme-api' };
