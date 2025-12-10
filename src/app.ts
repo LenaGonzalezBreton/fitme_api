@@ -3,9 +3,13 @@ import fjwt from '@fastify/jwt';
 import { authRoutes } from './modules/auth/auth.routes';
 import { authSchemas } from './modules/auth/auth.schema';
 import { profileRoutes } from './modules/profile/profile.routes';
-import { ZodTypeProvider } from 'fastify-type-provider-zod';
+import { ZodTypeProvider, validatorCompiler, serializerCompiler } from 'fastify-type-provider-zod';
 
 const server = Fastify();
+
+// Configurer le compilateur pour Zod
+server.setValidatorCompiler(validatorCompiler);
+server.setSerializerCompiler(serializerCompiler);
 
 // 1. Enregistrer le plugin JWT
 // TODO: Mets "supersecret" dans ton .env (JWT_SECRET) !
